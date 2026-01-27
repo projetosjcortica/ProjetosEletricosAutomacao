@@ -183,19 +183,73 @@ class Program
 
     static void SetarBibliotecaInterface(CorelDraw corel)
     {
-        Console.Clear();
-        Console.WriteLine($"Biblioteca de Partidas Atual: {corel.NomeArquivoBiblioteca()}");
-        Console.WriteLine("Digite o nome do arquivo da Biblioteca que já está aberto no Corel:");
-        var nome = Console.ReadLine();
+        var bibliotecas = corel.ListFiles();
+
+        if (bibliotecas == null || bibliotecas.Count == 0)
+        {
+            Console.WriteLine("Nenhuma biblioteca encontrada no Corel.");
+            Console.ReadKey();
+            return;
+        }
+
+        int selectedIndex = 0;
+        ConsoleKey key;
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine($"Biblioteca de Partidas Atual: {corel.NomeArquivoBiblioteca()}");
+            Console.WriteLine("Use ↑ ↓ para navegar | Enter ou → para selecionar | Esc para sair\n");
+
+            for (int i = 0; i < bibliotecas.Count; i++)
+            {
+                if (i == selectedIndex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine($"> {bibliotecas[i]}");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"  {bibliotecas[i]}");
+                }
+            }
+
+            key = Console.ReadKey(true).Key;
+
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    selectedIndex = (selectedIndex == 0) ? bibliotecas.Count - 1 : selectedIndex - 1;
+                    break;
+
+                case ConsoleKey.DownArrow:
+                    selectedIndex = (selectedIndex == bibliotecas.Count - 1) ? 0 : selectedIndex + 1;
+                    break;
+            }
+
+        } while (key != ConsoleKey.Enter && key != ConsoleKey.RightArrow && key != ConsoleKey.Escape);
+
+        if (key == ConsoleKey.Escape)
+            return;
+
+        var bibliotecaSelecionada = bibliotecas[selectedIndex];
 
         try
         {
-            corel.SetBibliotecaDePaineis(nome);
+            corel.SetBibliotecaDePaineis(bibliotecaSelecionada);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Biblioteca definida com sucesso!");
+            Console.ResetColor();
+            Console.WriteLine($"Biblioteca selecionada: {bibliotecaSelecionada}");
         }
         catch (Exception ex)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Erro ao definir biblioteca:");
             Console.WriteLine(ex.Message);
+            Console.ResetColor();
         }
 
         Console.WriteLine("\nPressione qualquer tecla para continuar...");
@@ -204,19 +258,73 @@ class Program
 
     static void SetarProjetoInterface(CorelDraw corel)
     {
-        Console.Clear();
-        Console.WriteLine($"Projeto Elétrico Atual: {corel.NomeArquivoProjetoEletrico()}");
-        Console.WriteLine("Digite o nome do arquivo do Projeto Elétrico que já está aberto no Corel:");
-        var nome = Console.ReadLine();
+        var arquivos = corel.ListFiles();
+
+        if (arquivos == null || arquivos.Count == 0)
+        {
+            Console.WriteLine("Nenhum arquivo encontrado no Corel.");
+            Console.ReadKey();
+            return;
+        }
+
+        int selectedIndex = 0;
+        ConsoleKey key;
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine($"Projeto Elétrico Atual: {corel.NomeArquivoProjetoEletrico()}");
+            Console.WriteLine("Use ↑ ↓ para navegar | Enter ou → para selecionar | Esc para sair\n");
+
+            for (int i = 0; i < arquivos.Count; i++)
+            {
+                if (i == selectedIndex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"> {arquivos[i]}");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"  {arquivos[i]}");
+                }
+            }
+
+            key = Console.ReadKey(true).Key;
+
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    selectedIndex = (selectedIndex == 0) ? arquivos.Count - 1 : selectedIndex - 1;
+                    break;
+
+                case ConsoleKey.DownArrow:
+                    selectedIndex = (selectedIndex == arquivos.Count - 1) ? 0 : selectedIndex + 1;
+                    break;
+            }
+
+        } while (key != ConsoleKey.Enter && key != ConsoleKey.RightArrow && key != ConsoleKey.Escape);
+
+        if (key == ConsoleKey.Escape)
+            return;
+
+        var arquivoSelecionado = arquivos[selectedIndex];
 
         try
         {
-            corel.SetProjetoEletrico(nome);
+            corel.SetProjetoEletrico(arquivoSelecionado);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Projeto definido com sucesso!");
+            Console.ResetColor();
+            Console.WriteLine($"Projeto selecionado: {arquivoSelecionado}");
         }
         catch (Exception ex)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Erro ao definir projeto:");
             Console.WriteLine(ex.Message);
+            Console.ResetColor();
         }
 
         Console.WriteLine("\nPressione qualquer tecla para continuar...");

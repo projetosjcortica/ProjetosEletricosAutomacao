@@ -394,14 +394,16 @@ namespace Infrastructure
 
         public void SetAllPagesNumber()
         {
+            int numeroPagina = 1;
             for (int i = 0; i <= ProjetoEletrico.Pages.Count; i++)
             {
                 var Page = ProjetoEletrico.Pages[i];
                 var PaginaShape = Page.FindShape("pagina");
                 if (PaginaShape != null)
                 {
-                    PaginaShape.Text.Contents = $"{i + 1}";
+                    PaginaShape.Text.Contents = $"{numeroPagina}";
                 }
+                numeroPagina++;
             }
         }
 

@@ -17,6 +17,15 @@ namespace Domain.Services
                 string prefix = "";
                 string suffix = "";
 
+                var isRegistro = Regex.IsMatch(word, @"^R([1-9][0-9]?|100)[AF]$", RegexOptions.IgnoreCase);
+                var isValvula = Regex.IsMatch(word, @"^V([1-9][0-9]?|100)[AB]$", RegexOptions.IgnoreCase);
+
+                if (isRegistro || isValvula)
+                {
+                    result.Add(prefix + rawWord + suffix);
+                    continue;
+                }
+
                 // Detecta "(" no início
                 if (word.StartsWith("("))
                 {

@@ -8,12 +8,12 @@ class Program
     static void Main()
     {
         var excel = new ExcelRepository(
-            @"C:\Users\maqui\Documents\Painel CCM-1A.xlsx",
+            @"C:\Users\User\Documents\Painel CCM-1A.xlsx",
             "CCM-1A"
         );
 
-        var filePathBiblioteca = new FilePath("\"C:\\Users\\maqui\\Desktop\\Biblioteca de Partida - DEFINITIVA.cdr\"");
-        var filePathProjetoEletrico = new FilePath("\"C:\\Users\\maqui\\Desktop\\Testes CorelDraw.cdr\"");
+        var filePathBiblioteca = new FilePath("\"C:\\Users\\User\\Desktop\\Biblioteca de Partida - DEFINITIVA.cdr\"");
+        var filePathProjetoEletrico = new FilePath("\"C:\\Users\\User\\Desktop\\Testes CorelDraw.cdr\"");
         var corel = new CorelDraw(filePathBiblioteca, filePathProjetoEletrico);
 
         MainMenu(excel, corel);

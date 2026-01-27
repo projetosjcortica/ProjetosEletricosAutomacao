@@ -1,11 +1,5 @@
-﻿using Domain.Value_Objects;
-using Domain.Value_Objects.Descricao;
+﻿using Domain.Value_Objects.Descricao;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DomainTestes.ValueObjects
 {
@@ -22,7 +16,7 @@ namespace DomainTestes.ValueObjects
         public void Sucess_Case_Create_Descricao_Sensor()
         {
             var Result = new Descricao("Status Sensor Pistão 1 Abre");
-            Result.Value.Should().Be("Status\r\nSensor Pistão 1 Abre");
+            Result.Value.Should().Be("Status Sensor\r\nPistão 1\r\nAbre");
         }
 
         [Fact]
@@ -52,6 +46,28 @@ namespace DomainTestes.ValueObjects
             var Result = new Descricao("alimentação rosca 1 (alimentação rosca tulha)");
             Result.Value.Should().Be("Alimentação Rosca 1 (Alimentação Rosca Tulha)");
         }
+
+        [Fact]
+        public void Sucess_Case_Create_Descricao_Registro_Abre()
+        {
+            var Result = new Descricao("R12A");
+            Result.Value.Should().Be("R12A");
+        }
+
+        [Fact]
+        public void Sucess_Case_Create_Descricao_Registro_Fecha()
+        {
+            var Result = new Descricao("R1F");
+            Result.Value.Should().Be("R1F");
+        }
+        [Fact]
+        public void Sucess_Case_Create_Descricao_Valvula()
+        {
+            var Result = new Descricao("Acionamento / Status Válvula 4 Abre / Fecha");
+            Result.Value.Should().Be("Acionamento / Status\r\nVálvula 4\r\nAbre / Fecha");
+        }
+
+
 
     }
 }

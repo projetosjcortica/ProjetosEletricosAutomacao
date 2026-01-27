@@ -83,20 +83,6 @@ namespace DomainTestes.ValueObjects
             anilhaT.Value.Should().Be("1C-T\r\nINV16");
         }
 
-        //[Fact]
-        //public void Sucess_Case_Create_Anilha_Fonte_Atuador_Positiva()
-        //{
-        //    var result = Anilha.CreateAnilhaFonteAtuadorPositiva("CCM-1A", 2);
-        //    result.Value.Should().Be("1A-FDC.2(+)");
-        //}
-
-        //[Fact]
-        //public void Sucess_Case_Create_Anilha_Fonte_Atuador_Negativa()
-        //{
-        //    var result = Anilha.CreateAnilhaFonteAtuadorNegativa("CCM-1B", 4);
-        //    result.Value.Should().Be("1B-FDC.4(-)");
-        //}
-
         [Fact]
         public void Sucess_Case_Get_Painel_CCM_1A()
         {

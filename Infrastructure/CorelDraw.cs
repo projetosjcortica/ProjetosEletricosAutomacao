@@ -400,7 +400,7 @@ namespace Infrastructure
                 var PaginaShape = Page.FindShape("pagina");
                 if (PaginaShape != null)
                 {
-                    PaginaShape.Text.Contents = $"{i + 1}";
+                    PaginaShape.Text.Contents =(i).ToString();
                 }
             }
         }
@@ -926,6 +926,19 @@ namespace Infrastructure
                 throw new Exception($"O arquivo '{nomeArquivo}' não está aberto no Corel.");
 
             ProjetoEletrico = GetDocument(nomeArquivo);
+        }
+
+
+        public List<string> ListFiles()
+        {
+            var listFiles = new List<string>();
+
+            foreach (VGCore.Document document in CorelApp.Documents)
+            {
+                listFiles.Add(document.Name);
+            }
+
+            return listFiles;
         }
 
     }

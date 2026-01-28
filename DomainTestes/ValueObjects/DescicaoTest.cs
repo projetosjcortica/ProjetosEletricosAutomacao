@@ -67,6 +67,13 @@ namespace DomainTestes.ValueObjects
             Result.Value.Should().Be("Acionamento / Status\r\nVálvula 4\r\nAbre / Fecha");
         }
 
+        [Fact]
+        public void Sucess_Case_Create_Descricao_Atuador()
+        {
+            var Result = new Descricao("K-AT-35A");
+            Result.Value.Should().Be("K-AT-35A");
+        }
+
 
 
     }

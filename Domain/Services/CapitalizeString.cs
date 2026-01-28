@@ -6,7 +6,10 @@ namespace Domain.Services
     {
         public static string Execute(string value)
         {
-            var ignoreWords = new List<string> { "da", "do", "de", "das", "dos" };
+            if (string.IsNullOrWhiteSpace(value))
+                return value;
+
+            var ignoreWords = new HashSet<string> { "da", "do", "de", "das", "dos" };
             var result = new List<string>();
 
             var words = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -17,12 +20,13 @@ namespace Domain.Services
                 string prefix = "";
                 string suffix = "";
 
-                var isRegistro = Regex.IsMatch(word, @"^R([1-9][0-9]?|100)[AF]$", RegexOptions.IgnoreCase);
-                var isValvula = Regex.IsMatch(word, @"^V([1-9][0-9]?|100)[AB]$", RegexOptions.IgnoreCase);
+                // Casos especiais (Registro / Válvula)
+                bool isRegistro = Regex.IsMatch(word, @"^R([1-9][0-9]?|100)[AF]$", RegexOptions.IgnoreCase);
+                bool isValvula = Regex.IsMatch(word, @"^V([1-9][0-9]?|100)[AB]$", RegexOptions.IgnoreCase);
 
                 if (isRegistro || isValvula)
                 {
-                    result.Add(prefix + rawWord + suffix);
+                    result.Add(word.ToUpper());
                     continue;
                 }
 
@@ -40,23 +44,24 @@ namespace Domain.Services
                     word = word.Substring(0, word.Length - 1);
                 }
 
-                // Hífen → tratar partes separadamente
+                // Tratamento com hífen (K-AT-35A, PT-100, etc.)
                 if (word.Contains("-"))
                 {
                     var parts = word.Split('-');
+
                     var capParts = parts.Select(p =>
                     {
-                        // Se já está totalmente em maiúsculas, mantém
-                        if (p.All(char.IsUpper))
-                            return p;
+                        // Alfanumérico (tem letra e número) → MAIÚSCULO
+                        if (Regex.IsMatch(p, @"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$"))
+                            return p.ToUpper();
 
-                        // Se é numérico, mantém
+                        // Somente números
                         if (p.All(char.IsDigit))
                             return p;
 
-                        // Se tiver letra e número junto (ex: PT100) e começar com letra
-                        if (p.Length > 1 && char.IsLetter(p[0]) && p.Skip(1).All(char.IsDigit))
-                            return char.ToUpper(p[0]) + p.Substring(1);
+                        // Já está em maiúsculas
+                        if (p.All(c => !char.IsLetter(c) || char.IsUpper(c)))
+                            return p;
 
                         // Capitalização normal
                         return char.ToUpper(p[0]) + p.Substring(1).ToLower();
@@ -66,7 +71,7 @@ namespace Domain.Services
                     continue;
                 }
 
-                // Alfanumérico do tipo 1A, 22B
+                // Alfanumérico simples (1A, 22B)
                 if (Regex.IsMatch(word, @"^\d+[A-Za-z]$"))
                 {
                     result.Add(prefix + word.ToUpper() + suffix);
@@ -81,10 +86,8 @@ namespace Domain.Services
                     continue;
                 }
 
-                // Capitalização normal
-                if (word.Length > 0)
-                    word = char.ToUpper(word[0]) + word.Substring(1).ToLower();
-
+                // Palavra normal
+                word = char.ToUpper(word[0]) + word.Substring(1).ToLower();
                 result.Add(prefix + word + suffix);
             }
 

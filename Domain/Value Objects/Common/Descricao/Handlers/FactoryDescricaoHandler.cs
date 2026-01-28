@@ -1,4 +1,5 @@
 ﻿using Domain.Value_Objects.Common.Descricao.Handlers;
+using System.Text;
 
 namespace Domain.Value_Objects.Descricao.Handles
 {
@@ -9,18 +10,24 @@ namespace Domain.Value_Objects.Descricao.Handles
             var defaultHandler = new DefaultHandler();
             var RegistroHandler = new RegistroDescricaoHandler();
             var BTHandler = new BTDescricaoHandler();
-            var SensorHandler = new SensorDescricaoHandler();
+            var SensorPT100Handler = new SensorPT100DescricaoHandler();
             var BotaoHandler = new BotaoDescricaoHandler();
             var StatusHandler = new StatusDescricaoHandler();
             var FreioMotorHandler = new FreioMotorDescricaoHandler();
-            RegistroHandler.SetNext(defaultHandler);
-            BTHandler.SetNext(RegistroHandler);
-            SensorHandler.SetNext(BTHandler);
-            BotaoHandler.SetNext(SensorHandler);
-            StatusHandler.SetNext(BotaoHandler);
-            FreioMotorHandler.SetNext(StatusHandler);
+            var ValvulaHandler = new ValvulaDescricaoHandler();
+            var pistaoHandler = new PistaoDescricaoHandler();
 
-           return FreioMotorHandler;
+            RegistroHandler.SetNext(BTHandler);
+            BTHandler.SetNext(SensorPT100Handler);
+            SensorPT100Handler.SetNext(BotaoHandler);
+            BotaoHandler.SetNext(StatusHandler);
+            StatusHandler.SetNext(FreioMotorHandler);
+            FreioMotorHandler.SetNext(ValvulaHandler);
+            ValvulaHandler.SetNext(pistaoHandler);
+            pistaoHandler.SetNext(defaultHandler);
+
+
+           return RegistroHandler;
         }
     }
 }

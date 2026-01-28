@@ -2,7 +2,7 @@
 
 namespace Domain.Value_Objects.Descricao.Handles
 {
-    public class SensorDescricaoHandler : IDescricaoHandler
+    public class SensorPT100DescricaoHandler : IDescricaoHandler
     {
         public IDescricaoHandler? Next { get; set; }
 

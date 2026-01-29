@@ -1,4 +1,5 @@
 ﻿using Application.UseCases;
+using CLI.Commands;
 using Domain.Value_Objects;
 using Infrastructure;
 using Infrastructure.Repositories;
@@ -7,26 +8,23 @@ class Program
 {
     static void Main()
     {
-        var excel = new ExcelRepository(
-            @"C:\Users\User\Documents\Painel CCM-1A.xlsx",
-            "CCM-1A"
-        );
+        MainMenu();
+    }
+
+    static void MainMenu()
+    {
+        var excel = new ExcelRepository();
 
         var filePathBiblioteca = new FilePath("\"C:\\Users\\User\\Desktop\\Biblioteca de Partida - DEFINITIVA.cdr\"");
         var filePathProjetoEletrico = new FilePath("\"C:\\Users\\User\\Desktop\\Testes CorelDraw.cdr\"");
         var corel = new CorelDraw(filePathBiblioteca, filePathProjetoEletrico);
 
-        MainMenu(excel, corel);
-    }
-
-    static void MainMenu(ExcelRepository excel, CorelDraw corel)
-    {
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("====================================");
-            Console.WriteLine("     SISTEMA DE PROJETO ELÉTRICO    ");
-            Console.WriteLine("====================================");
+            Console.WriteLine("==============================================");
+            Console.WriteLine("          SISTEMA DE PROJETO ELÉTRICO         ");
+            Console.WriteLine("==============================================");
             Console.WriteLine("1 - Criar projeto elétrico");
             Console.WriteLine("2 - Abrir projeto existente");
             Console.WriteLine("3 - Ferramentas");
@@ -94,10 +92,10 @@ class Program
             if (Console.ReadLine() == "2")
                 break;
         }
-
+        var pathExcel = SelecionarPastaScroll.Execute();
         Console.WriteLine("\nGerando projeto elétrico...");
         var create = new CreateProjects(excel, corel);
-        create.Execute(panels);
+        create.Execute(panels, pathExcel);
 
         Console.WriteLine("Projeto criado com sucesso!");
         Console.ReadKey();
@@ -331,8 +329,6 @@ class Program
         Console.ReadKey();
     }
 
-
-
     static void Spinner(Action action, string message)
     {
         var spinner = new[] { "|", "/", "-", "\\" };
@@ -362,10 +358,18 @@ class Program
 
         int totalChars = fullMessage.Length + 1;
 
-        Console.Write("\r");                         
-        Console.Write(new string(' ', totalChars));   
-        Console.Write("\r");                          
+        Console.Write("\r");
+        Console.Write(new string(' ', totalChars));
+        Console.Write("\r");
 
         Console.CursorVisible = true;
     }
+    static string SelecionarPastaComScroll()
+    {
+        return SelecionarPastaScroll.Execute();
+    }
+
 }
+
+
+

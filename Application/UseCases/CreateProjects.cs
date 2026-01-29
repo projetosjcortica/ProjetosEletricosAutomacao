@@ -14,15 +14,15 @@ namespace Application.UseCases
             _ExcelRepository = excelRepository;
             CorelDraw = corelDraw;
         }
-        public void Execute(List<string> panelsNames)
+        public void Execute(List<string> panelsNames, string BasePath)
         {
             CorelDraw.Init();
             var projects = new ProjetoComposto(CorelDraw);
             foreach (var panelName in panelsNames)
             {
-                var BasePath = @$"C:\Users\User\Documents\Painel {panelName}.xlsx";
+                var path = @$"{BasePath}\Painel {panelName}.xlsx";
                 _ExcelRepository.SetPanelName(panelName);
-                _ExcelRepository.SetFilePath(BasePath);
+                _ExcelRepository.SetFilePath(path);
 
                 var createProject = new CreateProject(_ExcelRepository, CorelDraw);
 

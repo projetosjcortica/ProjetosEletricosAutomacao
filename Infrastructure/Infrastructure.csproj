@@ -7,20 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <COMReference Include="CorelDRAW">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>0</VersionMinor>
-      <VersionMajor>18</VersionMajor>
-      <Guid>fbf4300f-d921-11d1-b806-00a0c90646a9</Guid>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="VGCore">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>0</VersionMinor>
       <VersionMajor>18</VersionMajor>
       <Guid>95e23c91-bc5a-49f3-8cd1-1fc515597048</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="CorelDRAW">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>18</VersionMajor>
+      <Guid>fbf4300f-d921-11d1-b806-00a0c90646a9</Guid>
       <Lcid>0</Lcid>
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>

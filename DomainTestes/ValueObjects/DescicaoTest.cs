@@ -73,8 +73,21 @@ namespace DomainTestes.ValueObjects
             var Result = new Descricao("K-AT-35A");
             Result.Value.Should().Be("K-AT-35A");
         }
+  
+        [Fact]
+        public void Sucess_Case_Create_Descricao_Substituir_Quebra_De_Linha()
+        {
+            var Result = new Descricao("Atuador 25$Classificador 1");
+            Result.Value.Should().Be("Atuador 25\r\nClassificador 1");
+        }
 
 
+        [Fact]
+        public void Sucess_Case_Create_Descricao_Substituir_Quebra_De_Linha_Com_Espaco()
+        {
+            var Result = new Descricao("Atuador 25 $ Classificador 1");
+            Result.Value.Should().Be("Atuador 25\r\nClassificador 1");
+        }
 
     }
 }

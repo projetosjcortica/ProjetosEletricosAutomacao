@@ -55,8 +55,11 @@ namespace Infrastructure
 
         public void Init()
         {
-            OpenDocumentExistBiblioteca(pathBibliotecaDePartidas);
-            OpenDocumentExistProjeto(pathProjetoEletrico);
+            if(BibliotecaDePartidas is null) 
+                OpenDocumentExistBiblioteca(pathBibliotecaDePartidas);
+
+            if (ProjetoEletrico is null)
+                OpenDocumentExistProjeto(pathProjetoEletrico);
         }
 
         public VGCore.Document CreateFile(FilePath filePath)
